@@ -1,0 +1,7 @@
+__pycache__
+dist/
+*.pyc
+.venv/
+.coverage
+coverage.xml
+hexlet_python_package/__pycache__
