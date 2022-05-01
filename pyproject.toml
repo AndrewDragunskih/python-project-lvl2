@@ -12,7 +12,7 @@ python = "^3.8"
 argparse = "^1.4.0"
 
 [tool.poetry.scripts]
-gendiff = "hexlet_python_package.gendiff:main"
+gendiff = "hexlet_python_package.scripts.gendiff:main"
 
 [tool.poetry.dev-dependencies]
 
