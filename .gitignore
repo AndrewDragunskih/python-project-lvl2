@@ -5,4 +5,4 @@ dist/
 .coverage
 coverage.xml
 hexlet_python_package/__pycache__
-*.json
+
