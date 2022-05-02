@@ -19,7 +19,7 @@ def downcase_bool(key_value):
     return key_value
 
 
-def format_one_diff(key, key_value, arg):
+def output_diff(arg, key, key_value):
     """
     Format difference with one string.
 
@@ -35,23 +35,6 @@ def format_one_diff(key, key_value, arg):
     return '  {0} {1}: {2}\n'.format(arg, key, downcased_key_value)
 
 
-def format_two_diffs(key, key_value1, key_value2):
-    """
-    Format difference with two strings.
-
-    Args:
-        key: key to print
-        key_value1: value to print
-        key_value2: value to print
-
-    Returns:
-        str: formatted difference
-    """
-    formatted_string = format_one_diff(key, key_value1, '-')
-    formatted_string = formatted_string + format_one_diff(key, key_value2, '+')
-    return formatted_string
-
-
 def generate_diff(first_file_path, second_file_path):
     """
     Print difference between two files.
@@ -65,24 +48,23 @@ def generate_diff(first_file_path, second_file_path):
     """
     with open(os.path.abspath(first_file_path), 'r') as read_file1:
         first_file = json.load(read_file1)
-    first_file_keys = list(first_file.keys())
     with open(os.path.abspath(second_file_path), 'r') as read_file2:
         second_file = json.load(read_file2)
-    second_file_keys = list(second_file.keys())
-    unique_keys_sorted = sorted(list(set(first_file_keys + second_file_keys)))
-    diffs = '{\n'
-    for key in unique_keys_sorted:
-        if key in first_file_keys and key in second_file_keys:
-            if first_file[key] == second_file[key]:
-                diffs = diffs + format_one_diff(key, first_file[key], ' ')
-                continue
-            else:
-                diffs = diffs + format_two_diffs(key, first_file[key], second_file[key])
-                continue
-        if key in first_file_keys and not (key in second_file_keys):
-            diffs = diffs + format_one_diff(key, first_file[key], '-')
-            continue
-        if not (key in first_file_keys) and key in second_file_keys:
-            diffs = diffs + format_one_diff(key, second_file[key], '+')
-    diffs = '{0}\n}'.format(diffs)
-    return diffs
+    unique_keys = set(first_file.keys()) | set(second_file.keys())
+    unique_keys = list(unique_keys)
+    unique_keys.sort()
+    first_file_keys = set(first_file.keys()) - set(second_file.keys())
+    second_file_keys = set(second_file.keys()) - set(first_file.keys())
+    both_file_keys = set(first_file.keys()) & set(second_file.keys())
+    diff = ''
+    for key in unique_keys:
+        if key in first_file_keys:
+            diff = diff + output_diff('-', key, first_file[key])
+        elif key in second_file_keys:
+            diff = diff + output_diff('+', key, second_file[key])
+        elif key in both_file_keys and first_file[key] == second_file[key]:
+            diff = diff + output_diff(' ', key, second_file[key])
+        else:
+            diff = diff + output_diff('-', key, first_file[key])
+            diff = diff + output_diff('+', key, second_file[key])
+    return '{{\n{0}}}'.format(diff)

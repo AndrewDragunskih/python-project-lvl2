@@ -11,6 +11,7 @@ packages = [
 python = "^3.8"
 argparse = "^1.4.0"
 pytest = "^7.1.2"
+flake8 = "^4.0.1"
 
 [tool.poetry.scripts]
 gendiff = "hexlet_python_package.scripts.gendiff:main"
