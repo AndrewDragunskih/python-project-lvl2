@@ -1,20 +1,23 @@
- coverage:
-      needs: [ check ]
+>coverage:
+   > needs: [ check ]
  
-      name: coverage
+    >name: coverage
  
-      runs-on: ubuntu-latest
+    >runs-on: ubuntu-latest
  
-      steps:
-      - uses: actions/checkout@master
-      - uses: actions/setup-python@v2
-        with:
-          python-version: 3.8.5
-      - run: |
-            pip install poetry
-            make install
-      - uses: paambaati/codeclimate-action@v2.7.5
-        env:
-          CC_TEST_REPORTER_ID: 143c901168ce63b65ec05eab06f9500aff58ea7f46c5a81491a3e2de01d70388
-        with:
-          coverageCommand: make test-coverage
+    >steps:
+    >- uses: actions/checkout@master
+    >- uses: actions/setup-python@v2
+    >  with:
+     >   python-version: 3.8.5
+    >- run: |
+     >     pip install poetry
+      >    make install
+    >- uses: paambaati/codeclimate-action@v2.7.5
+     > env:
+     >   CC_TEST_REPORTER_ID: 143c901168ce63b65ec05eab06f9500aff58ea7f46c5a81491a3e2de01d70388
+     > with:
+
+      >  coverageCommand: make test-coverage
+
+
