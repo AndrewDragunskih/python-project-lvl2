@@ -1,23 +1,35 @@
->coverage:
-   > needs: [ check ]
- 
-    >name: coverage
- 
-    >runs-on: ubuntu-latest
- 
-    >steps:
-    >- uses: actions/checkout@master
-    >- uses: actions/setup-python@v2
-    >  with:
-     >   python-version: 3.8.5
-    >- run: |
-     >     pip install poetry
-      >    make install
-    >- uses: paambaati/codeclimate-action@v2.7.5
-     > env:
-     >   CC_TEST_REPORTER_ID: 143c901168ce63b65ec05eab06f9500aff58ea7f46c5a81491a3e2de01d70388
-     > with:
+name: Code coverage
 
-      >  coverageCommand: make test-coverage
+on: [push]
 
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.8"]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install poetry
+          make install
+          poetry add pytest-cov        
+      - name: Run test coverage
+        run: |
+          make test-coverage
+      - name: Test & publish code coverage
+        uses: paambaati/codeclimate-action@v2.7.5
+        env:
+          CC_TEST_REPORTER_ID: 143c901168ce63b65ec05eab06f9500aff58ea7f46c5a81491a3e2de01d70388
+        with:
+          coverageCommand: make test-coverage
+          debug: true
 
