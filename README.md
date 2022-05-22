@@ -9,4 +9,5 @@
 ### CodeClimate - Test Coverage
 <a href="https://codeclimate.com/github/AndrewDragunskih/python-project-lvl2/test_coverage"><img src="https://api.codeclimate.com/v1/badges/93bdd57acfcb866c9197/test_coverage" /></a>
 ### Asciinemas
-https://asciinema.org/a/491459
+[![asciicast](https://asciinema.org/a/491459.svg)](https://asciinema.org/a/491459)
+[![asciicast](https://asciinema.org/a/496411.svg)](https://asciinema.org/a/496411)

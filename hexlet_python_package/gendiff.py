@@ -2,6 +2,10 @@
 import json
 import os
 
+import yaml
+from hexlet_python_package.parser import parse_files
+from yaml.loader import SafeLoader
+
 
 def downcase_bool(key_value):
     """
@@ -19,20 +23,41 @@ def downcase_bool(key_value):
     return key_value
 
 
-def output_diff(arg, key, key_value):
+def format_diffs(diffs):
     """
-    Format difference with one string.
+    Format difference.
 
     Args:
-        key: key to print
-        key_value: value to print
-        arg: argument of difference
+        diffs: differnce
 
     Returns:
         str: formatted difference
     """
-    downcased_key_value = downcase_bool(key_value)
-    return '  {0} {1}: {2}\n'.format(arg, key, downcased_key_value)
+    formatted_diffs = ''
+    for diff in diffs:
+        downcased_bool = downcase_bool(diff[2])
+        curr_diff = '  {0} {1}: {2}\n'.format(diff[0], diff[1], downcased_bool)
+        formatted_diffs += curr_diff
+    return '{{\n{0}}}'.format(formatted_diffs)
+
+
+def open_file(file_path):
+    """
+    Open .json or .yaml files.
+
+    Args:
+        file_path: path to file
+
+    Returns:
+        file: opened file
+    """
+    if file_path[-4:] == 'json':
+        with open(os.path.abspath(file_path), 'r') as read_file_json:
+            opened_file = json.load(read_file_json)
+    if file_path[-4:] == 'yaml' or file_path[-3:] == 'yml':
+        with open(os.path.abspath(file_path), 'r') as read_file_yaml:
+            opened_file = yaml.load(read_file_yaml, Loader=SafeLoader)
+    return opened_file
 
 
 def generate_diff(first_file_path, second_file_path):
@@ -46,25 +71,7 @@ def generate_diff(first_file_path, second_file_path):
     Returns:
         str: formatted difference between files
     """
-    with open(os.path.abspath(first_file_path), 'r') as read_file1:
-        first_file = json.load(read_file1)
-    with open(os.path.abspath(second_file_path), 'r') as read_file2:
-        second_file = json.load(read_file2)
-    unique_keys = set(first_file.keys()) | set(second_file.keys())
-    unique_keys = list(unique_keys)
-    unique_keys.sort()
-    first_file_keys = set(first_file.keys()) - set(second_file.keys())
-    second_file_keys = set(second_file.keys()) - set(first_file.keys())
-    both_file_keys = set(first_file.keys()) & set(second_file.keys())
-    diff = ''
-    for key in unique_keys:
-        if key in first_file_keys:
-            diff = diff + output_diff('-', key, first_file[key])
-        elif key in second_file_keys:
-            diff = diff + output_diff('+', key, second_file[key])
-        elif key in both_file_keys and first_file[key] == second_file[key]:
-            diff = diff + output_diff(' ', key, second_file[key])
-        else:
-            diff = diff + output_diff('-', key, first_file[key])
-            diff = diff + output_diff('+', key, second_file[key])
-    return '{{\n{0}}}'.format(diff)
+    first_file = open_file(first_file_path)
+    second_file = open_file(second_file_path)
+    diffs = parse_files(first_file, second_file)
+    return format_diffs(diffs)
