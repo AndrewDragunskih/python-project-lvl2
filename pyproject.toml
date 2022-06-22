@@ -10,10 +10,10 @@ packages = [
 [tool.poetry.dependencies]
 python = "^3.8"
 argparse = "^1.4.0"
-pytest = "^7.1.2"
-flake8 = "^4.0.1"
-pytest-cov = "^3.0.0"
 PyYAML = "^6.0"
+pytest = "^7.1.2"
+pytest-cov = "^3.0.0"
+flake8 = "^3.8.3"
 
 [tool.poetry.scripts]
 gendiff = "hexlet_python_package.scripts.gendiff:main"
