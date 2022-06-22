@@ -6,4 +6,5 @@ dist/
 coverage.xml
 hexlet_python_package/__pycache__
 .pytest_cache/
-
+*.json
+*.yaml
