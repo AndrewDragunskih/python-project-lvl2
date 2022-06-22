@@ -28,5 +28,6 @@ def json_output(raw_data, first_file, second_file):
         first_file: first file path
         second_file: second_file path
     """
-    with open(get_file_name(first_file, second_file), 'w') as write_file_json:
+    file_name = get_file_name(first_file, second_file)
+    with open(os.path.abspath(file_name), 'w') as write_file_json:
         json.dump(raw_data, write_file_json)
