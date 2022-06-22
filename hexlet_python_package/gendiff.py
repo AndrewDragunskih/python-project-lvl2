@@ -40,3 +40,6 @@ def generate_diff(first_file_path, second_file_path):
     first_file = open_file(first_file_path)
     second_file = open_file(second_file_path)
     return parse_files(first_file, second_file)
+
+if __name__ == '__main__':
+    generate_diff()
