@@ -123,4 +123,5 @@ def plain(raw_data_outer):
                     sign, some_value, current_path,
                 )
         return formatted_diff
-    return walk(sort_raw_data(raw_data_outer))
+    formatted_diff = walk(sort_raw_data(raw_data_outer))
+    return formatted_diff[:len(formatted_diff) - 1]
