@@ -11,6 +11,5 @@ def test_generate_diff():
     generate_diff('test/fixtures/file1.json', 'test/fixtures/file2.json', 'json')
     with open('diff_file1.json_and_file2.json.json','r') as read_file_json:
             result_json = json.load(read_file_json)
-    print(result_json)
     print(type(result_json))
     assert result_json == result_fixture

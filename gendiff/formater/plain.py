@@ -12,10 +12,8 @@ def format_value(some_value):
     Returns:
         str: formatted value
     """
-    if some_value is True:
-        return 'true'
-    elif some_value is False:
-        return 'false'
+    if str(some_value) in {'True', 'False', '0'}:
+        return str(some_value).lower()
     elif some_value is None:
         return 'null'
     return "'{0}'".format(some_value)
