@@ -3,6 +3,9 @@ import json
 import os
 
 import yaml
+from gendiff.formater.json import json_output
+from gendiff.formater.plain import plain
+from gendiff.formater.stylish import stylish
 from gendiff.parser import parse_files
 from yaml.loader import SafeLoader
 
@@ -26,11 +29,12 @@ def open_file(file_path):
     return opened_file
 
 
-def generate_diff(first_file_path, second_file_path):
+def generate_diff(diff_format, first_file_path, second_file_path):
     """
     Print difference between two files.
 
     Args:
+        diff_format: return diff in this style
         first_file_path: path to first file
         second_file_path: path to second file
 
@@ -39,4 +43,10 @@ def generate_diff(first_file_path, second_file_path):
     """
     first_file = open_file(first_file_path)
     second_file = open_file(second_file_path)
-    return parse_files(first_file, second_file)
+    raw_diff = parse_files(first_file, second_file)
+    if diff_format == 'stylish':
+        return stylish(raw_diff)
+    elif diff_format == 'plain':
+        return plain(raw_diff)
+    elif diff_format == 'json':
+        json_output(raw_diff, first_file_path, second_file_path)

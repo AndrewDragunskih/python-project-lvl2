@@ -6,6 +6,7 @@ def test_generate_diff():
     result = result_file.read()
     result = result[:len(result)-1]
     result_file.close()
-    print(result)
-    raw_data = generate_diff('test/fixtures/file1.json', 'test/fixtures/file2.json')
-    assert stylish(raw_data) == result
+    data = generate_diff(
+        'stylish', 'test/fixtures/file1.json', 'test/fixtures/file2.json'
+    )
+    assert data == result
