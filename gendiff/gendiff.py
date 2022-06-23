@@ -29,7 +29,7 @@ def open_file(file_path):
     return opened_file
 
 
-def generate_diff(diff_format, first_file_path, second_file_path):
+def generate_diff(first_file_path, second_file_path, diff_format='stylish'):
     """
     Print difference between two files.
 

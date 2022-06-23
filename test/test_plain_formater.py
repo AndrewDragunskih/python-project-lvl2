@@ -6,6 +6,6 @@ def test_generate_diff():
     result = result_file.read()
     result_file.close()
     data = generate_diff(
-        'plain', 'test/fixtures/file1.json', 'test/fixtures/file2.json'
+        'test/fixtures/file1.json', 'test/fixtures/file2.json', 'plain',
     )
     assert data == result
