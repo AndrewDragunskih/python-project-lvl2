@@ -1,5 +1,5 @@
 """Some description."""
-from hexlet_python_package.formater.sort import sort_raw_data
+from gendiff.formater.sort import sort_raw_data
 
 
 def format_value(some_value):

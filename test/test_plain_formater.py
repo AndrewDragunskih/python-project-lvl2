@@ -1,5 +1,5 @@
-from hexlet_python_package.gendiff import generate_diff
-from hexlet_python_package.formater.plain import plain
+from gendiff import generate_diff
+from gendiff.formater.plain import plain
 
 def test_generate_diff():
     result_file = open('test/fixtures/result_plain','r')

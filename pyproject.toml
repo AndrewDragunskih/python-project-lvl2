@@ -4,7 +4,7 @@ version = "0.1.0"
 description = ""
 authors = ["andrew.dragunskih <andrew.dragunskih@yandex.ru>"]
 packages = [
-	{ include = "hexlet_python_package"}
+	{ include = "gendiff"}
 ]
 
 [tool.poetry.dependencies]
@@ -16,7 +16,7 @@ flake8 = ">=3.8.3"
 pytest = ">=6.0.2"
 
 [tool.poetry.scripts]
-gendiff = "hexlet_python_package.scripts.gendiff:main"
+gendiff = "gendiff.scripts.gendiff:main"
 
 [tool.poetry.dev-dependencies]
 wemake-python-styleguide = "^0.16.1"

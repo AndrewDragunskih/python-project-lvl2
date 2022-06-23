@@ -1,10 +1,10 @@
 """Some description."""
 import argparse
 
-from hexlet_python_package.formater.json import json_output
-from hexlet_python_package.formater.plain import plain
-from hexlet_python_package.formater.stylish import stylish
-from hexlet_python_package.gendiff import generate_diff
+from gendiff.formater.json import json_output
+from gendiff.formater.plain import plain
+from gendiff.formater.stylish import stylish
+from gendiff.gendiff import generate_diff
 
 
 def main():

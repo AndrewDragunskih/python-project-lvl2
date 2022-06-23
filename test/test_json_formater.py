@@ -1,8 +1,8 @@
 import os
 
-from hexlet_python_package.gendiff import generate_diff
-from hexlet_python_package.formater.json import json_output
-from hexlet_python_package.formater.sort import sort_raw_data
+from gendiff import generate_diff
+from gendiff.formater.json import json_output
+from gendiff.formater.sort import sort_raw_data
 
 def test_generate_diff():
     result_file = open('test/fixtures/result_json_output','r')

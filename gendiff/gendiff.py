@@ -3,7 +3,7 @@ import json
 import os
 
 import yaml
-from hexlet_python_package.parser import parse_files
+from gendiff.parser import parse_files
 from yaml.loader import SafeLoader
 
 
