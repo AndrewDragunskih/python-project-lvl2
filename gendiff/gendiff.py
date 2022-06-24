@@ -49,4 +49,4 @@ def generate_diff(first_file_path, second_file_path, diff_format='stylish'):
     elif diff_format == 'plain':
         return plain(raw_diff)
     elif diff_format == 'json':
-        json_output(raw_diff, first_file_path, second_file_path)
+        return json_output(raw_diff)
