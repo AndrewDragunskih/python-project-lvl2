@@ -1,7 +1,6 @@
 """Some description."""
 import json
 
-
 from gendiff.formater.sort import sort_raw_data
 
 
