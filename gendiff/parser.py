@@ -1,37 +1,4 @@
 """Some description."""
-from itertools import compress
-
-
-def is_value_complex(value_to_check):
-    """
-    Is value a dictionary.
-
-    Args:
-        value_to_check: first data to check
-
-    Returns:
-        boolean: list of value(s) complexity
-    """
-    return isinstance(value_to_check, dict)
-
-
-def is_data_has_key(key_to_find, first_data, second_data):
-    """
-    Define data contains the key.
-
-    Args:
-        key_to_find: key to find in data
-        first_data: first data that may contain the key
-        second_data: second data that may contain the key
-
-    Returns:
-        list: list of data that contian the key
-    """
-    if key_to_find in first_data.keys() and key_to_find in second_data.keys():
-        return [True, True]
-    elif key_to_find in first_data.keys():
-        return [True, False]
-    return [False, True]
 
 
 def go_deeper(some_data):
@@ -42,16 +9,23 @@ def go_deeper(some_data):
         some_data: somethin
 
     Returns:
-        dict: difference
+        list: difference
     """
-    diff = {}
-    for some_key in set(some_data.keys()):
+    diff = []
+    for some_key in some_data.keys():
         some_value = some_data[some_key]
-        new_key = '  {0}'.format(some_key)
-        if is_value_complex(some_value):
-            diff[new_key] = go_deeper(some_value)
+        if isinstance(some_value, dict):
+            diff.append({
+                'key': some_key,
+                'status': 'not changed',
+                'value': go_deeper(some_value),
+            })
         else:
-            diff[new_key] = some_data[some_key]
+            diff.append({
+                'key': some_key,
+                'status': 'not changed',
+                'value': some_value,
+            })
     return diff
 
 
@@ -65,19 +39,33 @@ def parse_any_complex_data(some_key, first_data_value, second_data_value):
         second_data_value: second data to parse
 
     Returns:
-        dict: difference
+        list: difference
     """
-    diff = {}
-    diff_sign = '-+'
-    if is_value_complex(first_data_value):
-        diff[diff_sign + some_key] = go_deeper(first_data_value)
+    diff = []
+    if isinstance(first_data_value, dict):
+        diff.append({
+            'key': some_key,
+            'status': 'upd from',
+            'value': go_deeper(first_data_value),
+        })
     else:
-        diff[diff_sign + some_key] = first_data_value
-    diff_sign = '+-'
-    if is_value_complex(second_data_value):
-        diff[diff_sign + some_key] = go_deeper(second_data_value)
+        diff.append({
+            'key': some_key,
+            'status': 'upd from',
+            'value': first_data_value,
+        })
+    if isinstance(second_data_value, dict):
+        diff.append({
+            'key': some_key,
+            'status': 'upd to',
+            'value': go_deeper(second_data_value),
+        })
     else:
-        diff[diff_sign + some_key] = second_data_value
+        diff.append({
+            'key': some_key,
+            'status': 'upd to',
+            'value': second_data_value,
+        })
     return diff
 
 
@@ -91,16 +79,26 @@ def parse_simple_data(some_key, first_data_value, second_data_value):
         second_data_value: second data to parse
 
     Returns:
-        dict: difference
+        list: difference
     """
-    diff = {}
+    diff = []
     if first_data_value == second_data_value:
-        diff['  {0}'.format(some_key)] = first_data_value
+        diff.append({
+            'key': some_key,
+            'status': 'not changed',
+            'value': first_data_value,
+        })
     else:
-        diff_sign = '-+'
-        diff[diff_sign + some_key] = first_data_value
-        diff_sign = '+-'
-        diff[diff_sign + some_key] = second_data_value
+        diff.append({
+            'key': some_key,
+            'status': 'upd from',
+            'value': first_data_value,
+        })
+        diff.append({
+            'key': some_key,
+            'status': 'upd to',
+            'value': second_data_value,
+        })
     return diff
 
 
@@ -115,17 +113,27 @@ def parse_one_data(some_key, first_data, second_data, level):
         level: special flag to compare values
 
     Returns:
-        dict: difference
+        list: difference
     """
-    diff = {}
-    data_has_key = is_data_has_key(some_key, first_data, second_data)
-    some_data, = list(compress((first_data, second_data), data_has_key))
-    diff_sign, = list(compress(('- ', '+ '), data_has_key))
-    new_key = diff_sign + some_key if level == 1 else '  {0}'.format(some_key)
-    if is_value_complex(some_data[some_key]):
-        diff[new_key] = go_deeper(some_data[some_key])
+    diff = []
+    if some_key in first_data.keys():
+        some_data = first_data
+        status = 'removed'
     else:
-        diff[new_key] = some_data[some_key]
+        some_data = second_data
+        status = 'added'
+    if isinstance(some_data[some_key], dict):
+        diff.append({
+            'key': some_key,
+            'status': status if level == 1 else 'not changed',
+            'value': go_deeper(some_data[some_key]),
+        })
+    else:
+        diff.append({
+            'key': some_key,
+            'status': status if level == 1 else 'not changed',
+            'value': some_data[some_key],
+        })
     return diff
 
 
@@ -138,33 +146,34 @@ def parse_files(first_data_outer, second_data_outer):
         second_data_outer: second file to parse
 
     Returns:
-        dict: difference between files
+        list: difference between files
     """
     def walk(first_data, second_data, level=1):
-        diff = {}
-        for some_key in set(first_data.keys()) | set(second_data.keys()):
-            if all(is_data_has_key(some_key, first_data, second_data)):
-                first_data_value = first_data[some_key]
-                second_data_value = second_data[some_key]
-                value_is_comlpex = (
-                    is_value_complex(first_data_value),
-                    is_value_complex(second_data_value),
-                )
-                if all(value_is_comlpex):
-                    diff['  {0}'.format(some_key)] = walk(
-                        first_data_value, second_data_value,
+        diff = []
+        for key in set(first_data.keys()) | set(second_data.keys()):
+            if key in first_data.keys() and key in second_data.keys():
+                is_first_data_comlpex = isinstance(first_data[key], dict)
+                is_second_data_complex = isinstance(second_data[key], dict)
+                if is_first_data_comlpex and is_second_data_complex:
+                    diff.append({
+                        'key': key,
+                        'status': 'not changed',
+                        'value': walk(first_data[key], second_data[key]),
+                    })
+                elif is_first_data_comlpex or is_second_data_complex:
+                    one_diff = parse_any_complex_data(
+                        key, first_data[key], second_data[key],
                     )
-                elif any(value_is_comlpex):
-                    diff = {**diff, **parse_any_complex_data(
-                        some_key, first_data_value, second_data_value,
-                    )}
+                    diff.extend(one_diff)
                 else:
-                    diff = {**diff, **parse_simple_data(
-                        some_key, first_data_value, second_data_value,
-                    )}
+                    one_diff = parse_simple_data(
+                        key, first_data[key], second_data[key],
+                    )
+                    diff.extend(one_diff)
             else:
-                diff = {**diff, **parse_one_data(
-                    some_key, first_data, second_data, level,
-                )}
+                one_diff = parse_one_data(
+                    key, first_data, second_data, level,
+                )
+                diff.extend(one_diff)
         return diff
     return walk(first_data_outer, second_data_outer)

@@ -21,21 +21,24 @@ def format_value(some_value):
     return str(some_value)
 
 
-def format_key(some_key):
+def format_status(status):
     """
-    Format key in case of changing value.
+    Format status to output is stylish format.
 
     Args:
-        some_key : key to format
+        status : key status
 
     Returns:
         str: formatted key
     """
-    if str(some_key)[:2] == '-+':
-        return '- {0}'.format(some_key[2:])
-    elif str(some_key)[:2] == '+-':
-        return '+ {0}'.format(some_key[2:])
-    return str(some_key)
+    status_base = {
+        'not changed': '  ',
+        'upd from': '- ',
+        'upd to': '+ ',
+        'added': '+ ',
+        'removed': '- ',
+    }
+    return status_base[status]
 
 
 def stylish(raw_data_outer):
@@ -48,16 +51,17 @@ def stylish(raw_data_outer):
     Returns:
         str: difference between files in str format
     """
-
     def walk(raw_data, level=1, res=''):
-        for some_key, some_value in raw_data.items():
+        for some_data in raw_data:
             indent = ' ' * (4 * level - 2)
-            res += '{0}{1}: '.format(indent, format_key(some_key))
-            if isinstance(some_value, dict) is False:
-                res += '{0}\n'.format(format_value(some_value))
+            res += '{0}{1}{2}: '.format(
+                indent, format_status(some_data['status']), some_data['key'],
+            )
+            if isinstance(some_data['value'], list) is False:
+                res += '{0}\n'.format(format_value(some_data['value']))
             else:
                 res = '{0}{1}\n'.format(res, '{')
-                res += walk(some_value, level + 1)
+                res += walk(some_data['value'], level + 1)
                 res = '{0}{1}  {2}\n'.format(res, indent, '}')
         return res
     return '{{\n{0}}}'.format(walk(sort_raw_data(raw_data_outer)))

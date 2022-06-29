@@ -19,45 +19,47 @@ def format_value(some_value):
     return "'{0}'".format(some_value)
 
 
-def value_is_updated(sign, some_value, current_path):
+def value_is_updated(some_data, current_path):
     """
     Return formatted difference when the value was updated.
 
     Args:
-        sign : type of value update
-        some_value : vale that was updated
+        some_data : data that was updated
         current_path : full path to the key of value
 
     Returns:
         str: formatted diff
     """
-    if sign == '-+':
+    if some_data['status'] == 'upd from':
         diff = "Property '{0}' was updated.".format(current_path)
-        if isinstance(some_value, dict):
+        if isinstance(some_data['value'], list):
             diff = '{0} From [complex value] to'.format(diff)
         else:
-            diff = '{0} From {1} to'.format(diff, format_value(some_value))
+            diff = '{0} From {1} to'.format(
+                diff, format_value(some_data['value']),
+            )
     else:
-        if isinstance(some_value, dict):
+        if isinstance(some_data['value'], list):
             diff = ' [complex value]\n'
         else:
-            diff = ' {0}\n'.format(format_value(some_value))
+            diff = ' {0}\n'.format(format_value(some_data['value']))
     return diff
 
 
-def value_is_added(some_value, current_path):
+def value_is_added(some_data, current_path):
     """
     Return formatted difference when the value was added.
 
     Args:
-        some_value : vale that was updated
+        some_data : data that was added
         current_path : full path to the key of value
 
     Returns:
         str: formatted diff
     """
+    some_value = some_data['value']
     diff = "Property '{0}' was added with value:".format(current_path)
-    if isinstance(some_value, dict):
+    if isinstance(some_value, list):
         diff = '{0} [complex value]\n'.format(diff)
     else:
         diff = '{0} {1}\n'.format(diff, format_value(some_value))
@@ -77,23 +79,22 @@ def value_is_removed(current_path):
     return "Property '{0}' was removed\n".format(current_path)
 
 
-def value_is_changed(sign, some_value, current_path):
+def value_is_changed(some_data, current_path):
     """
     Return formatted difference when the value was changed.
 
     Args:
-        sign : type of value update
-        some_value : vale that was updated
+        some_data : data that was changed
         current_path : full path to the key of value
 
     Returns:
         str: formatted diff
     """
     diff = ''
-    if sign in {'-+', '+-'}:
-        diff += value_is_updated(sign, some_value, current_path)
-    elif sign == '+ ':
-        diff += value_is_added(some_value, current_path)
+    if some_data['status'] in {'upd to', 'upd from'}:
+        diff += value_is_updated(some_data, current_path)
+    elif some_data['status'] == 'added':
+        diff += value_is_added(some_data, current_path)
     else:
         diff += value_is_removed(current_path)
     return diff
@@ -110,17 +111,18 @@ def plain(raw_data_outer):
         str: difference between files in str format
     """
     def walk(raw_data, full_path='', formatted_diff=''):
-        for some_key, some_value in raw_data.items():
-            sign = some_key[:2]
-            current_path = full_path + some_key[2:]
-            if sign == '  ':
-                if isinstance(some_value, dict):
+        for some_data in raw_data:
+            current_path = full_path + some_data['key']
+            if some_data['status'] == 'not changed':
+                if isinstance(some_data['value'], list):
                     formatted_diff = walk(
-                        some_value, '{0}.'.format(current_path), formatted_diff,
+                        some_data['value'],
+                        '{0}.'.format(current_path),
+                        formatted_diff,
                     )
             else:
                 formatted_diff += value_is_changed(
-                    sign, some_value, current_path,
+                    some_data, current_path,
                 )
         return formatted_diff
     formatted_diff = walk(sort_raw_data(raw_data_outer))

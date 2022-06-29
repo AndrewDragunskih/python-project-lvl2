@@ -1,12 +1,15 @@
 from gendiff import generate_diff
+from gendiff.open_files import open_file
 
 
-def test_generate_diff():
+def test_generate_diff_stylish():
     result_file = open('test/fixtures/result_stylish', 'r')
     result = result_file.read()
     result = result[:len(result) - 1]
     result_file.close()
-    data = generate_diff(
-        'test/fixtures/file1.json', 'test/fixtures/file2.json',
+    diff = generate_diff(
+        open_file('test/fixtures/file1.json'),
+        open_file('test/fixtures/file2.json'),
+        'stylish',
     )
-    assert data == result
+    assert diff == result

@@ -14,4 +14,4 @@ def json_output(raw_data):
     Returns:
         json: sorted diff in json format
     """
-    return json.dumps(sort_raw_data(raw_data))
+    return json.dumps(sort_raw_data(raw_data), indent=2)

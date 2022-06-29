@@ -1,1 +1,168 @@
-{"  common": {"+ follow": false, "  setting1": "Value 1", "- setting2": 200, "-+setting3": true, "+-setting3": null, "+ setting4": "blah blah", "+ setting5": {"  key5": "value5"}, "  setting6": {"  doge": {"-+wow": "", "+-wow": "so much"}, "  key": "value", "+ ops": "vops"}}, "  group1": {"-+baz": 0, "+-baz": "bars", "  foo": "bar", "-+nest": {"  key": "value"}, "+-nest": "str"}, "- group2": {"  abc": 12345, "  deep": {"  id": 45}}, "+ group3": {"  deep": {"  id": {"  number": 45}}, "  fee": 100500}}
+[
+  {
+    "key": "common",
+    "status": "not changed",
+    "value": [
+      {
+        "key": "follow",
+        "status": "added",
+        "value": false
+      },
+      {
+        "key": "setting1",
+        "status": "not changed",
+        "value": "Value 1"
+      },
+      {
+        "key": "setting2",
+        "status": "removed",
+        "value": 200
+      },
+      {
+        "key": "setting3",
+        "status": "upd from",
+        "value": true
+      },
+      {
+        "key": "setting3",
+        "status": "upd to",
+        "value": null
+      },
+      {
+        "key": "setting4",
+        "status": "added",
+        "value": "blah blah"
+      },
+      {
+        "key": "setting5",
+        "status": "added",
+        "value": [
+          {
+            "key": "key5",
+            "status": "not changed",
+            "value": "value5"
+          }
+        ]
+      },
+      {
+        "key": "setting6",
+        "status": "not changed",
+        "value": [
+          {
+            "key": "doge",
+            "status": "not changed",
+            "value": [
+              {
+                "key": "wow",
+                "status": "upd from",
+                "value": ""
+              },
+              {
+                "key": "wow",
+                "status": "upd to",
+                "value": "so much"
+              }
+            ]
+          },
+          {
+            "key": "key",
+            "status": "not changed",
+            "value": "value"
+          },
+          {
+            "key": "ops",
+            "status": "added",
+            "value": "vops"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "key": "group1",
+    "status": "not changed",
+    "value": [
+      {
+        "key": "baz",
+        "status": "upd from",
+        "value": 0
+      },
+      {
+        "key": "baz",
+        "status": "upd to",
+        "value": "bars"
+      },
+      {
+        "key": "foo",
+        "status": "not changed",
+        "value": "bar"
+      },
+      {
+        "key": "nest",
+        "status": "upd from",
+        "value": [
+          {
+            "key": "key",
+            "status": "not changed",
+            "value": "value"
+          }
+        ]
+      },
+      {
+        "key": "nest",
+        "status": "upd to",
+        "value": "str"
+      }
+    ]
+  },
+  {
+    "key": "group2",
+    "status": "removed",
+    "value": [
+      {
+        "key": "abc",
+        "status": "not changed",
+        "value": 12345
+      },
+      {
+        "key": "deep",
+        "status": "not changed",
+        "value": [
+          {
+            "key": "id",
+            "status": "not changed",
+            "value": 45
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "key": "group3",
+    "status": "added",
+    "value": [
+      {
+        "key": "deep",
+        "status": "not changed",
+        "value": [
+          {
+            "key": "id",
+            "status": "not changed",
+            "value": [
+              {
+                "key": "number",
+                "status": "not changed",
+                "value": 45
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "fee",
+        "status": "not changed",
+        "value": 100500
+      }
+    ]
+  }
+]
