@@ -1,5 +1,4 @@
 from gendiff import generate_diff
-from gendiff.open_files import open_file
 
 
 def test_generate_diff_stylish():

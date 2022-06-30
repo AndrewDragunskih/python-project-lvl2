@@ -18,11 +18,7 @@ def generate_diff(first_data_path, second_data_path, diff_format='stylish'):
     Returns:
         str: formatted difference between files
     """
-    if os.path.isfile(first_data_path) and os.path.isfile(second_data_path):
-        first_data = open_file(first_data_path)
-        second_data = open_file(second_data_path)
-    else:
-        first_data = first_data_path
-        second_data = second_data_path
+    first_data = open_file(first_data_path)
+    second_data = open_file(second_data_path)
     raw_diff = parse_files(first_data, second_data)
     return format_diff_in_chosen_style(raw_diff, diff_format)

@@ -7,6 +7,6 @@ def test_generate_diff_plain():
     result = result[:len(result) - 1]
     result_file.close()
     diff = generate_diff(
-        'test/fixtures/file1.json', 'test/fixtures/file2.json','plain',
+        'test/fixtures/file1.json', 'test/fixtures/file2.json', 'plain',
     )
     assert diff == result
