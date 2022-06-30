@@ -2,7 +2,6 @@
 import argparse
 
 from gendiff.gendiff import generate_diff
-from gendiff.open_files import open_file
 
 
 def main():
@@ -18,9 +17,7 @@ def main():
     parser.add_argument('first_file', nargs='?')
     parser.add_argument('second_file', nargs='?')
     args = parser.parse_args()
-    first_file = open_file(args.first_file)
-    second_file = open_file(args.second_file)
-    print(generate_diff(first_file, second_file, args.format))
+    print(generate_diff(args.first_file, args.second_file, args.format))
 
 
 if __name__ == '__main__':
