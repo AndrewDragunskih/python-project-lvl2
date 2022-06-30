@@ -8,8 +8,6 @@ def test_generate_diff_stylish():
     result = result[:len(result) - 1]
     result_file.close()
     diff = generate_diff(
-        open_file('test/fixtures/file1.json'),
-        open_file('test/fixtures/file2.json'),
-        'stylish',
+        'test/fixtures/file1.json', 'test/fixtures/file2.json', 'stylish',
     )
     assert diff == result

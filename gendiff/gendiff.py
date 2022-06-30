@@ -1,7 +1,6 @@
 """Some description."""
 import os
 
-import yaml
 from gendiff.formater.format_diff import format_diff_in_chosen_style
 from gendiff.open_files import open_file
 from gendiff.parser import parse_files

@@ -1,9 +1,6 @@
 """Some description."""
-import json
-
 from gendiff.formater.json import json_output
 from gendiff.formater.plain import plain
-from gendiff.formater.sort import sort_raw_data
 from gendiff.formater.stylish import stylish
 
 
