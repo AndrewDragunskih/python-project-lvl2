@@ -20,12 +20,12 @@
       },
       {
         "key": "setting3",
-        "status": "upd from",
+        "status": "updated from",
         "value": true
       },
       {
         "key": "setting3",
-        "status": "upd to",
+        "status": "updated to",
         "value": null
       },
       {
@@ -54,12 +54,12 @@
             "value": [
               {
                 "key": "wow",
-                "status": "upd from",
+                "status": "updated from",
                 "value": ""
               },
               {
                 "key": "wow",
-                "status": "upd to",
+                "status": "updated to",
                 "value": "so much"
               }
             ]
@@ -84,12 +84,12 @@
     "value": [
       {
         "key": "baz",
-        "status": "upd from",
+        "status": "updated from",
         "value": 0
       },
       {
         "key": "baz",
-        "status": "upd to",
+        "status": "updated to",
         "value": "bars"
       },
       {
@@ -99,7 +99,7 @@
       },
       {
         "key": "nest",
-        "status": "upd from",
+        "status": "updated from",
         "value": [
           {
             "key": "key",
@@ -110,7 +110,7 @@
       },
       {
         "key": "nest",
-        "status": "upd to",
+        "status": "updated to",
         "value": "str"
       }
     ]

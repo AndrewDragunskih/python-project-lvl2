@@ -1,4 +1,5 @@
 """Some description."""
+from gendiff import change_status
 from gendiff.formater.sort import sort_raw_data
 
 
@@ -32,11 +33,11 @@ def format_status(status):
         str: formatted key
     """
     status_base = {
-        'not changed': '  ',
-        'upd from': '- ',
-        'upd to': '+ ',
-        'added': '+ ',
-        'removed': '- ',
+        change_status.NOT_CH: '  ',
+        change_status.UPD_FROM: '- ',
+        change_status.UPD_TO: '+ ',
+        change_status.ADD: '+ ',
+        change_status.RM: '- ',
     }
     return status_base[status]
 

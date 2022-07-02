@@ -1,4 +1,5 @@
 """Some description."""
+from gendiff import change_status
 from gendiff.formater.sort import sort_raw_data
 
 
@@ -30,7 +31,7 @@ def value_is_updated(some_data, current_path):
     Returns:
         str: formatted diff
     """
-    if some_data['status'] == 'upd from':
+    if some_data['status'] == change_status.UPD_FROM:
         diff = "Property '{0}' was updated.".format(current_path)
         if isinstance(some_data['value'], list):
             diff = '{0} From [complex value] to'.format(diff)
@@ -91,9 +92,9 @@ def value_is_changed(some_data, current_path):
         str: formatted diff
     """
     diff = ''
-    if some_data['status'] in {'upd to', 'upd from'}:
+    if some_data['status'] in {change_status.UPD_TO, change_status.UPD_FROM}:
         diff += value_is_updated(some_data, current_path)
-    elif some_data['status'] == 'added':
+    elif some_data['status'] == change_status.ADD:
         diff += value_is_added(some_data, current_path)
     else:
         diff += value_is_removed(current_path)
@@ -113,7 +114,7 @@ def plain(raw_data_outer):
     def walk(raw_data, full_path='', formatted_diff=''):
         for some_data in raw_data:
             current_path = full_path + some_data['key']
-            if some_data['status'] == 'not changed':
+            if some_data['status'] == change_status.NOT_CH:
                 if isinstance(some_data['value'], list):
                     formatted_diff = walk(
                         some_data['value'],
