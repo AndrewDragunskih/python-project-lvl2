@@ -25,7 +25,7 @@ def parse_file(data_from_file, file_type):
     if file_type in JSON_TYPE:
         return json.loads(data_from_file)
     if file_type in YAML_TYPE:
-        return yaml.loads(data_from_file, Loader=SafeLoader)
+        return yaml.load(data_from_file, Loader=SafeLoader)
 
 
 def get_data_from_file(file_path):
