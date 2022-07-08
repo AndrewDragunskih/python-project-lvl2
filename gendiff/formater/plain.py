@@ -1,6 +1,10 @@
 """Some description."""
-from gendiff import change_status
 from gendiff.formater.sort import sort_raw_data
+
+NOT_CHANGED = 'not changed'
+UPDATED = 'updated'
+ADDED = 'added'
+REMOVED = 'removed'
 
 
 def format_value(some_value):
@@ -31,19 +35,20 @@ def value_is_updated(some_data, current_path):
     Returns:
         str: formatted diff
     """
-    if some_data['status'] == change_status.UPD_FROM:
-        diff = "Property '{0}' was updated.".format(current_path)
-        if isinstance(some_data['value'], list):
-            diff = '{0} From [complex value] to'.format(diff)
-        else:
-            diff = '{0} From {1} to'.format(
-                diff, format_value(some_data['value']),
-            )
+    diff = "Property '{0}' was updated.".format(current_path)
+    if isinstance(some_data['value'][0], dict):
+        diff = "Property '{0}' was updated. From [complex value] to".format(
+            current_path,
+        )
     else:
-        if isinstance(some_data['value'], list):
-            diff = ' [complex value]\n'
-        else:
-            diff = ' {0}\n'.format(format_value(some_data['value']))
+        diff = "Property '{0}' was updated. From {1} to".format(
+            current_path,
+            format_value(some_data['value'][0]),
+        )
+    if isinstance(some_data['value'][1], dict):
+        diff = '{0} [complex value]\n'.format(diff)
+    else:
+        diff += ' {0}\n'.format(format_value(some_data['value'][1]))
     return diff
 
 
@@ -60,7 +65,7 @@ def value_is_added(some_data, current_path):
     """
     some_value = some_data['value']
     diff = "Property '{0}' was added with value:".format(current_path)
-    if isinstance(some_value, list):
+    if isinstance(some_value, dict):
         diff = '{0} [complex value]\n'.format(diff)
     else:
         diff = '{0} {1}\n'.format(diff, format_value(some_value))
@@ -92,9 +97,9 @@ def value_is_changed(some_data, current_path):
         str: formatted diff
     """
     diff = ''
-    if some_data['status'] in {change_status.UPD_TO, change_status.UPD_FROM}:
+    if some_data['status'] == UPDATED:
         diff += value_is_updated(some_data, current_path)
-    elif some_data['status'] == change_status.ADD:
+    elif some_data['status'] == ADDED:
         diff += value_is_added(some_data, current_path)
     else:
         diff += value_is_removed(current_path)
@@ -114,7 +119,7 @@ def plain(raw_data_outer):
     def walk(raw_data, full_path='', formatted_diff=''):
         for some_data in raw_data:
             current_path = full_path + some_data['key']
-            if some_data['status'] == change_status.NOT_CH:
+            if some_data['status'] == NOT_CHANGED:
                 if isinstance(some_data['value'], list):
                     formatted_diff = walk(
                         some_data['value'],
