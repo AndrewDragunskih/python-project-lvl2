@@ -34,7 +34,9 @@ def get_one_complex_data_diff(some_key, first_data_value, second_data_value):
     diff.append({
         'key': some_key,
         'status': UPDATED,
-        'value': (first_data_value, second_data_value),
+        'children': False,
+        'old_value': first_data_value,
+        'new_value': second_data_value,
     })
     return diff
 
@@ -52,22 +54,17 @@ def get_both_simple_data_diff(some_key, first_data_value, second_data_value):
         list: difference
     """
     diff = []
-    if first_data_value == second_data_value:
-        diff.append({
-            'key': some_key,
-            'status': NOT_CHANGED,
-            'value': first_data_value,
-        })
-    else:
-        diff.append({
-            'key': some_key,
-            'status': UPDATED,
-            'value': (first_data_value, second_data_value),
-        })
+    diff.append({
+        'key': some_key,
+        'status': NOT_CHANGED,
+        'children': False,
+        'old_value': first_data_value,
+        'new_value': second_data_value,
+    })
     return diff
 
 
-def get_one_data_diff(some_key, some_data, status, level):
+def get_one_data_diff(some_key, some_data, status):
     """
     Get diff when key is in one data.
 
@@ -75,7 +72,6 @@ def get_one_data_diff(some_key, some_data, status, level):
         some_key: current key
         some_data: data to parse
         status: change status
-        level: special flag to compare values
 
     Returns:
         list: difference
@@ -84,7 +80,9 @@ def get_one_data_diff(some_key, some_data, status, level):
     diff.append({
         'key': some_key,
         'status': status,
-        'value': some_data[some_key],
+        'children': False,
+        'old_value': some_data[some_key],
+        'new_value': some_data[some_key],
     })
     return diff
 
@@ -100,26 +98,29 @@ def get_diff(first_data_outer, second_data_outer):
     Returns:
         list: difference between files
     """
-    def walk(first_data, second_data, level=1):
+    def walk(first_data, second_data):
         diff = []
         for key in set(first_data.keys()) | set(second_data.keys()):
             if key in first_data.keys() and key not in second_data.keys():
                 one_diff = get_one_data_diff(
-                    key, first_data, REMOVED, level,
+                    key, first_data, REMOVED,
                 )
                 diff.extend(one_diff)
             elif key in second_data.keys() and key not in first_data.keys():
                 one_diff = get_one_data_diff(
-                    key, second_data, ADDED, level,
+                    key, second_data, ADDED,
                 )
                 diff.extend(one_diff)
             elif is_complex(first_data[key]) and is_complex(second_data[key]):
+                one_diff = walk(first_data[key], second_data[key])
                 diff.append({
                     'key': key,
                     'status': NOT_CHANGED,
-                    'value': walk(first_data[key], second_data[key]),
+                    'children': True,
+                    'old_value': one_diff,
+                    'new_value': one_diff,
                 })
-            elif is_complex(first_data[key]) or is_complex(second_data[key]):
+            elif first_data[key] != second_data[key]:
                 one_diff = get_one_complex_data_diff(
                     key, first_data[key], second_data[key],
                 )

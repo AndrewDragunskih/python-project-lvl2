@@ -2,69 +2,265 @@
   {
     "key": "common",
     "status": "not changed",
-    "value": [
+    "children": true,
+    "old_value": [
       {
         "key": "follow",
         "status": "added",
-        "value": false
+        "children": false,
+        "old_value": false,
+        "new_value": false
       },
       {
         "key": "setting1",
         "status": "not changed",
-        "value": "Value 1"
+        "children": false,
+        "old_value": "Value 1",
+        "new_value": "Value 1"
       },
       {
         "key": "setting2",
         "status": "removed",
-        "value": 200
+        "children": false,
+        "old_value": 200,
+        "new_value": 200
       },
       {
         "key": "setting3",
         "status": "updated",
-        "value": [
-          true,
-          null
-        ]
+        "children": false,
+        "old_value": true,
+        "new_value": null
       },
       {
         "key": "setting4",
         "status": "added",
-        "value": "blah blah"
+        "children": false,
+        "old_value": "blah blah",
+        "new_value": "blah blah"
       },
       {
         "key": "setting5",
         "status": "added",
-        "value": {
+        "children": false,
+        "old_value": {
+          "key5": "value5"
+        },
+        "new_value": {
           "key5": "value5"
         }
       },
       {
         "key": "setting6",
         "status": "not changed",
-        "value": [
+        "children": true,
+        "old_value": [
           {
             "key": "doge",
             "status": "not changed",
-            "value": [
+            "children": true,
+            "old_value": [
               {
                 "key": "wow",
                 "status": "updated",
-                "value": [
-                  "",
-                  "so much"
-                ]
+                "children": false,
+                "old_value": "",
+                "new_value": "so much"
+              }
+            ],
+            "new_value": [
+              {
+                "key": "wow",
+                "status": "updated",
+                "children": false,
+                "old_value": "",
+                "new_value": "so much"
               }
             ]
           },
           {
             "key": "key",
             "status": "not changed",
-            "value": "value"
+            "children": false,
+            "old_value": "value",
+            "new_value": "value"
           },
           {
             "key": "ops",
             "status": "added",
-            "value": "vops"
+            "children": false,
+            "old_value": "vops",
+            "new_value": "vops"
+          }
+        ],
+        "new_value": [
+          {
+            "key": "doge",
+            "status": "not changed",
+            "children": true,
+            "old_value": [
+              {
+                "key": "wow",
+                "status": "updated",
+                "children": false,
+                "old_value": "",
+                "new_value": "so much"
+              }
+            ],
+            "new_value": [
+              {
+                "key": "wow",
+                "status": "updated",
+                "children": false,
+                "old_value": "",
+                "new_value": "so much"
+              }
+            ]
+          },
+          {
+            "key": "key",
+            "status": "not changed",
+            "children": false,
+            "old_value": "value",
+            "new_value": "value"
+          },
+          {
+            "key": "ops",
+            "status": "added",
+            "children": false,
+            "old_value": "vops",
+            "new_value": "vops"
+          }
+        ]
+      }
+    ],
+    "new_value": [
+      {
+        "key": "follow",
+        "status": "added",
+        "children": false,
+        "old_value": false,
+        "new_value": false
+      },
+      {
+        "key": "setting1",
+        "status": "not changed",
+        "children": false,
+        "old_value": "Value 1",
+        "new_value": "Value 1"
+      },
+      {
+        "key": "setting2",
+        "status": "removed",
+        "children": false,
+        "old_value": 200,
+        "new_value": 200
+      },
+      {
+        "key": "setting3",
+        "status": "updated",
+        "children": false,
+        "old_value": true,
+        "new_value": null
+      },
+      {
+        "key": "setting4",
+        "status": "added",
+        "children": false,
+        "old_value": "blah blah",
+        "new_value": "blah blah"
+      },
+      {
+        "key": "setting5",
+        "status": "added",
+        "children": false,
+        "old_value": {
+          "key5": "value5"
+        },
+        "new_value": {
+          "key5": "value5"
+        }
+      },
+      {
+        "key": "setting6",
+        "status": "not changed",
+        "children": true,
+        "old_value": [
+          {
+            "key": "doge",
+            "status": "not changed",
+            "children": true,
+            "old_value": [
+              {
+                "key": "wow",
+                "status": "updated",
+                "children": false,
+                "old_value": "",
+                "new_value": "so much"
+              }
+            ],
+            "new_value": [
+              {
+                "key": "wow",
+                "status": "updated",
+                "children": false,
+                "old_value": "",
+                "new_value": "so much"
+              }
+            ]
+          },
+          {
+            "key": "key",
+            "status": "not changed",
+            "children": false,
+            "old_value": "value",
+            "new_value": "value"
+          },
+          {
+            "key": "ops",
+            "status": "added",
+            "children": false,
+            "old_value": "vops",
+            "new_value": "vops"
+          }
+        ],
+        "new_value": [
+          {
+            "key": "doge",
+            "status": "not changed",
+            "children": true,
+            "old_value": [
+              {
+                "key": "wow",
+                "status": "updated",
+                "children": false,
+                "old_value": "",
+                "new_value": "so much"
+              }
+            ],
+            "new_value": [
+              {
+                "key": "wow",
+                "status": "updated",
+                "children": false,
+                "old_value": "",
+                "new_value": "so much"
+              }
+            ]
+          },
+          {
+            "key": "key",
+            "status": "not changed",
+            "children": false,
+            "old_value": "value",
+            "new_value": "value"
+          },
+          {
+            "key": "ops",
+            "status": "added",
+            "children": false,
+            "old_value": "vops",
+            "new_value": "vops"
           }
         ]
       }
@@ -73,36 +269,69 @@
   {
     "key": "group1",
     "status": "not changed",
-    "value": [
+    "children": true,
+    "old_value": [
       {
         "key": "baz",
         "status": "updated",
-        "value": [
-          0,
-          "bars"
-        ]
+        "children": false,
+        "old_value": "bas",
+        "new_value": "bars"
       },
       {
         "key": "foo",
         "status": "not changed",
-        "value": "bar"
+        "children": false,
+        "old_value": "bar",
+        "new_value": "bar"
       },
       {
         "key": "nest",
         "status": "updated",
-        "value": [
-          {
-            "key": "value"
-          },
-          "str"
-        ]
+        "children": false,
+        "old_value": {
+          "key": "value"
+        },
+        "new_value": "str"
+      }
+    ],
+    "new_value": [
+      {
+        "key": "baz",
+        "status": "updated",
+        "children": false,
+        "old_value": "bas",
+        "new_value": "bars"
+      },
+      {
+        "key": "foo",
+        "status": "not changed",
+        "children": false,
+        "old_value": "bar",
+        "new_value": "bar"
+      },
+      {
+        "key": "nest",
+        "status": "updated",
+        "children": false,
+        "old_value": {
+          "key": "value"
+        },
+        "new_value": "str"
       }
     ]
   },
   {
     "key": "group2",
     "status": "removed",
-    "value": {
+    "children": false,
+    "old_value": {
+      "abc": 12345,
+      "deep": {
+        "id": 45
+      }
+    },
+    "new_value": {
       "abc": 12345,
       "deep": {
         "id": 45
@@ -112,7 +341,16 @@
   {
     "key": "group3",
     "status": "added",
-    "value": {
+    "children": false,
+    "old_value": {
+      "deep": {
+        "id": {
+          "number": 45
+        }
+      },
+      "fee": 100500
+    },
+    "new_value": {
       "deep": {
         "id": {
           "number": 45
