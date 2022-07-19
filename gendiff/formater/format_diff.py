@@ -18,6 +18,9 @@ def format_diff_in_chosen_style(raw_diff, diff_format):
 
     Returns:
         str: formatted diff
+
+    Raises:
+        ValueError: Not supported formater type
     """
     if diff_format == STYLISH_FORMAT:
         return stylish(raw_diff)
@@ -25,3 +28,4 @@ def format_diff_in_chosen_style(raw_diff, diff_format):
         return plain(raw_diff)
     elif diff_format == JSON_FORMAT:
         return json_output(raw_diff)
+    raise ValueError('Not supported formater type - "{0}"'.format(diff_format))

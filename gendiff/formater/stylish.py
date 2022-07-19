@@ -1,5 +1,5 @@
 """Some description."""
-from gendiff.build_diff import ADDED, NOT_CHANGED, REMOVED, UPDATED
+from gendiff.build_diff import ADDED, NESTED, NOT_CHANGED, REMOVED, UPDATED
 from gendiff.formater.sort import sort_raw_data
 
 
@@ -22,23 +22,24 @@ def format_value(some_value):
     return str(some_value)
 
 
-def format_status(status):
+def format_diff_type(diff_type):
     """
-    Format status to output is stylish format.
+    Format diff_type to output is stylish format.
 
     Args:
-        status : key status
+        diff_type : key diff_type
 
     Returns:
         str: formatted key
     """
-    status_base = {
-        NOT_CHANGED: '  ',
+    diff_type_base = {
         ADDED: '+ ',
+        NESTED: '  ',
+        NOT_CHANGED: '  ',
         REMOVED: '- ',
         UPDATED: '',
     }
-    return status_base[status]
+    return diff_type_base[diff_type]
 
 
 def format_one_data(raw_data_outer, level_outer=1):
@@ -85,37 +86,37 @@ def stylish(raw_data_outer):
     def walk(raw_data, level=1, res=''):
         for some_data in raw_data:
             indent = ' ' * (4 * level - 2)
-            if some_data['children']:
+            if some_data['diff_type'] == NESTED:
                 res += '{0}{1}{2}: {{\n{3}{0}  }}\n'.format(
                     indent,
-                    format_status(some_data['status']),
+                    format_diff_type(some_data['diff_type']),
                     some_data['key'],
-                    walk(some_data['old_value'], level + 1),
+                    walk(some_data['children'], level + 1),
                 )
-            elif some_data['status'] == UPDATED:
+            elif some_data['diff_type'] == UPDATED:
                 res += '{0}{1}{2}: {3}\n'.format(
                     indent,
-                    format_status(REMOVED),
+                    format_diff_type(REMOVED),
                     some_data['key'],
                     format_one_data(some_data['old_value'], level + 1),
                 )
                 res += '{0}{1}{2}: {3}\n'.format(
                     indent,
-                    format_status(ADDED),
+                    format_diff_type(ADDED),
                     some_data['key'],
                     format_one_data(some_data['new_value'], level + 1),
                 )
-            elif some_data['status'] == ADDED:
+            elif some_data['diff_type'] == ADDED:
                 res += '{0}{1}{2}: {3}\n'.format(
                     indent,
-                    format_status(ADDED),
+                    format_diff_type(ADDED),
                     some_data['key'],
                     format_one_data(some_data['new_value'], level + 1),
                 )
             else:
                 res += '{0}{1}{2}: {3}\n'.format(
                     indent,
-                    format_status(some_data['status']),
+                    format_diff_type(some_data['diff_type']),
                     some_data['key'],
                     format_one_data(some_data['old_value'], level + 1),
                 )

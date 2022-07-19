@@ -2,11 +2,10 @@ from gendiff import generate_diff
 
 
 def test_generate_diff_plain():
-    result_file = open('test/fixtures/result_plain', 'r')
-    result = result_file.read()
-    result = result[:len(result) - 1]
-    result_file.close()
+    with open('test/fixtures/result_plain', 'r') as result_file:
+        res = result_file.read()
+        res = res[:len(res) - 1]
     diff = generate_diff(
         'test/fixtures/file1.json', 'test/fixtures/file2.json', 'plain',
     )
-    assert diff == result
+    assert diff == res

@@ -1,5 +1,5 @@
 """Some description."""
-from gendiff.build_diff import ADDED, NOT_CHANGED, REMOVED, UPDATED
+from gendiff.build_diff import ADDED, NESTED, REMOVED, UPDATED
 from gendiff.formater.sort import sort_raw_data
 
 
@@ -95,11 +95,11 @@ def value_is_changed(some_data, current_path):
         str: formatted diff
     """
     diff = ''
-    if some_data['status'] == UPDATED:
+    if some_data['diff_type'] == UPDATED:
         diff += value_is_updated(some_data, current_path)
-    elif some_data['status'] == ADDED:
+    elif some_data['diff_type'] == ADDED:
         diff += value_is_added(some_data, current_path)
-    elif some_data['status'] == REMOVED:
+    elif some_data['diff_type'] == REMOVED:
         diff += value_is_removed(current_path)
     return diff
 
@@ -117,9 +117,9 @@ def plain(raw_data_outer):
     def walk(raw_data, full_path='', formatted_diff=''):
         for some_data in raw_data:
             current_path = full_path + some_data['key']
-            if some_data['status'] == NOT_CHANGED and some_data['children']:
+            if some_data['diff_type'] == NESTED:
                 formatted_diff = walk(
-                    some_data['old_value'],
+                    some_data['children'],
                     '{0}.'.format(current_path),
                     formatted_diff,
                 )

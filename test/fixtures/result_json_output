@@ -1,47 +1,46 @@
 [
   {
     "key": "common",
-    "status": "not changed",
-    "children": true,
-    "old_value": [
+    "diff_type": "nested",
+    "children": [
       {
         "key": "follow",
-        "status": "added",
+        "diff_type": "added",
         "children": false,
         "old_value": false,
         "new_value": false
       },
       {
         "key": "setting1",
-        "status": "not changed",
+        "diff_type": "not changed",
         "children": false,
         "old_value": "Value 1",
         "new_value": "Value 1"
       },
       {
         "key": "setting2",
-        "status": "removed",
+        "diff_type": "removed",
         "children": false,
         "old_value": 200,
         "new_value": 200
       },
       {
         "key": "setting3",
-        "status": "updated",
+        "diff_type": "updated",
         "children": false,
         "old_value": true,
         "new_value": null
       },
       {
         "key": "setting4",
-        "status": "added",
+        "diff_type": "added",
         "children": false,
         "old_value": "blah blah",
         "new_value": "blah blah"
       },
       {
         "key": "setting5",
-        "status": "added",
+        "diff_type": "added",
         "children": false,
         "old_value": {
           "key5": "value5"
@@ -52,26 +51,15 @@
       },
       {
         "key": "setting6",
-        "status": "not changed",
-        "children": true,
-        "old_value": [
+        "diff_type": "nested",
+        "children": [
           {
             "key": "doge",
-            "status": "not changed",
-            "children": true,
-            "old_value": [
+            "diff_type": "nested",
+            "children": [
               {
                 "key": "wow",
-                "status": "updated",
-                "children": false,
-                "old_value": "",
-                "new_value": "so much"
-              }
-            ],
-            "new_value": [
-              {
-                "key": "wow",
-                "status": "updated",
+                "diff_type": "updated",
                 "children": false,
                 "old_value": "",
                 "new_value": "so much"
@@ -80,184 +68,14 @@
           },
           {
             "key": "key",
-            "status": "not changed",
+            "diff_type": "not changed",
             "children": false,
             "old_value": "value",
             "new_value": "value"
           },
           {
             "key": "ops",
-            "status": "added",
-            "children": false,
-            "old_value": "vops",
-            "new_value": "vops"
-          }
-        ],
-        "new_value": [
-          {
-            "key": "doge",
-            "status": "not changed",
-            "children": true,
-            "old_value": [
-              {
-                "key": "wow",
-                "status": "updated",
-                "children": false,
-                "old_value": "",
-                "new_value": "so much"
-              }
-            ],
-            "new_value": [
-              {
-                "key": "wow",
-                "status": "updated",
-                "children": false,
-                "old_value": "",
-                "new_value": "so much"
-              }
-            ]
-          },
-          {
-            "key": "key",
-            "status": "not changed",
-            "children": false,
-            "old_value": "value",
-            "new_value": "value"
-          },
-          {
-            "key": "ops",
-            "status": "added",
-            "children": false,
-            "old_value": "vops",
-            "new_value": "vops"
-          }
-        ]
-      }
-    ],
-    "new_value": [
-      {
-        "key": "follow",
-        "status": "added",
-        "children": false,
-        "old_value": false,
-        "new_value": false
-      },
-      {
-        "key": "setting1",
-        "status": "not changed",
-        "children": false,
-        "old_value": "Value 1",
-        "new_value": "Value 1"
-      },
-      {
-        "key": "setting2",
-        "status": "removed",
-        "children": false,
-        "old_value": 200,
-        "new_value": 200
-      },
-      {
-        "key": "setting3",
-        "status": "updated",
-        "children": false,
-        "old_value": true,
-        "new_value": null
-      },
-      {
-        "key": "setting4",
-        "status": "added",
-        "children": false,
-        "old_value": "blah blah",
-        "new_value": "blah blah"
-      },
-      {
-        "key": "setting5",
-        "status": "added",
-        "children": false,
-        "old_value": {
-          "key5": "value5"
-        },
-        "new_value": {
-          "key5": "value5"
-        }
-      },
-      {
-        "key": "setting6",
-        "status": "not changed",
-        "children": true,
-        "old_value": [
-          {
-            "key": "doge",
-            "status": "not changed",
-            "children": true,
-            "old_value": [
-              {
-                "key": "wow",
-                "status": "updated",
-                "children": false,
-                "old_value": "",
-                "new_value": "so much"
-              }
-            ],
-            "new_value": [
-              {
-                "key": "wow",
-                "status": "updated",
-                "children": false,
-                "old_value": "",
-                "new_value": "so much"
-              }
-            ]
-          },
-          {
-            "key": "key",
-            "status": "not changed",
-            "children": false,
-            "old_value": "value",
-            "new_value": "value"
-          },
-          {
-            "key": "ops",
-            "status": "added",
-            "children": false,
-            "old_value": "vops",
-            "new_value": "vops"
-          }
-        ],
-        "new_value": [
-          {
-            "key": "doge",
-            "status": "not changed",
-            "children": true,
-            "old_value": [
-              {
-                "key": "wow",
-                "status": "updated",
-                "children": false,
-                "old_value": "",
-                "new_value": "so much"
-              }
-            ],
-            "new_value": [
-              {
-                "key": "wow",
-                "status": "updated",
-                "children": false,
-                "old_value": "",
-                "new_value": "so much"
-              }
-            ]
-          },
-          {
-            "key": "key",
-            "status": "not changed",
-            "children": false,
-            "old_value": "value",
-            "new_value": "value"
-          },
-          {
-            "key": "ops",
-            "status": "added",
+            "diff_type": "added",
             "children": false,
             "old_value": "vops",
             "new_value": "vops"
@@ -268,51 +86,25 @@
   },
   {
     "key": "group1",
-    "status": "not changed",
-    "children": true,
-    "old_value": [
+    "diff_type": "nested",
+    "children": [
       {
         "key": "baz",
-        "status": "updated",
+        "diff_type": "updated",
         "children": false,
         "old_value": "bas",
         "new_value": "bars"
       },
       {
         "key": "foo",
-        "status": "not changed",
+        "diff_type": "not changed",
         "children": false,
         "old_value": "bar",
         "new_value": "bar"
       },
       {
         "key": "nest",
-        "status": "updated",
-        "children": false,
-        "old_value": {
-          "key": "value"
-        },
-        "new_value": "str"
-      }
-    ],
-    "new_value": [
-      {
-        "key": "baz",
-        "status": "updated",
-        "children": false,
-        "old_value": "bas",
-        "new_value": "bars"
-      },
-      {
-        "key": "foo",
-        "status": "not changed",
-        "children": false,
-        "old_value": "bar",
-        "new_value": "bar"
-      },
-      {
-        "key": "nest",
-        "status": "updated",
+        "diff_type": "updated",
         "children": false,
         "old_value": {
           "key": "value"
@@ -323,7 +115,7 @@
   },
   {
     "key": "group2",
-    "status": "removed",
+    "diff_type": "removed",
     "children": false,
     "old_value": {
       "abc": 12345,
@@ -340,7 +132,7 @@
   },
   {
     "key": "group3",
-    "status": "added",
+    "diff_type": "added",
     "children": false,
     "old_value": {
       "deep": {

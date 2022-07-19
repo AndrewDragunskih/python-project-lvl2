@@ -21,11 +21,15 @@ def parse_data(data_to_parse, data_type):
 
     Returns:
         data: parsed data
+
+    Raises:
+        ValueError: Not supported format of data
     """
     if data_type in JSON_TYPE:
         return json.loads(data_to_parse)
     if data_type in YAML_TYPE:
         return yaml.load(data_to_parse, Loader=SafeLoader)
+    raise ValueError('Not supported format - "{0}"'.format(data_type))
 
 
 def get_data_from_file(file_path):
