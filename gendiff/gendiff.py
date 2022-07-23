@@ -4,7 +4,10 @@ import os
 
 import yaml
 from gendiff.build_diff import get_diff
-from gendiff.formater.format_diff import format_diff_in_chosen_style
+from gendiff.formater.format_diff import (
+    STYLISH_FORMAT,
+    format_diff_in_chosen_style,
+)
 from yaml.loader import SafeLoader
 
 JSON_TYPE = ['.json']
@@ -49,7 +52,11 @@ def get_data_from_file(file_path):
     return data_from_file, file_type
 
 
-def generate_diff(first_file_path, second_file_path, diff_format='stylish'):
+def generate_diff(
+    first_file_path,
+    second_file_path,
+    diff_format=STYLISH_FORMAT,
+):
     """
     Print difference between two files.
 

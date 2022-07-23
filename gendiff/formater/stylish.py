@@ -1,6 +1,5 @@
 """Some description."""
 from gendiff.build_diff import ADDED, NESTED, NOT_CHANGED, REMOVED, UPDATED
-from gendiff.formater.sort import sort_raw_data
 
 
 def format_value(some_value):
@@ -53,24 +52,31 @@ def format_one_data(raw_data_outer, level_outer=1):
     Returns:
         str: formatted key
     """
+    res_outer = []
+
     def _inner(raw_data, level=1):
-        res = ''
+        res = []
         for key in raw_data.keys():
             indent = ' ' * (4 * level)
             if isinstance(raw_data[key], dict):
-                res += '\n{0}{1}: {{{2}\n{0}}}'.format(
-                    indent, key, _inner(raw_data[key], level + 1),
-                )
+                res.append('{0}{1}: {{'.format(
+                    indent, key,
+                ))
+                res.append('{0}'.format(
+                    _inner(raw_data[key], level + 1),
+                ))
+                res.append('{0}}}'.format(indent))
             else:
-                res += '\n{0}{1}: {2}'.format(indent, key, raw_data[key])
-        return res
+                res.append('{0}{1}: {2}'.format(indent, key, raw_data[key]))
+        return '\n'.join(res)
     if isinstance(raw_data_outer, dict):
-        indent_outer = ' ' * (4 * (level_outer - 1))
-        return '{{{0}\n{1}}}'.format(
-            _inner(raw_data_outer, level_outer),
-            indent_outer,
-        )
-    return format_value(raw_data_outer)
+        indent_outer = ' ' * 4 * (level_outer - 1)
+        res_outer.append('{')
+        res_outer.append(_inner(raw_data_outer, level_outer))
+        res_outer.append('{0}}}'.format(indent_outer))
+        return '\n'.join(res_outer)
+    res_outer.append(format_value(raw_data_outer))
+    return '\n'.join(res_outer)
 
 
 def stylish(raw_data_outer):
@@ -83,42 +89,50 @@ def stylish(raw_data_outer):
     Returns:
         str: difference between files in str format
     """
-    def walk(raw_data, level=1, res=''):
-        for some_data in raw_data:
+    def walk(raw_data, level=1):
+        raw_data_sorted = []
+        raw_data_sorted.extend(sorted(
+            raw_data, key=lambda key_name: key_name['key'],
+        ))
+        res = []
+        for some_data in raw_data_sorted:
             indent = ' ' * (4 * level - 2)
             if some_data['diff_type'] == NESTED:
-                res += '{0}{1}{2}: {{\n{3}{0}  }}\n'.format(
+                res.append('{0}{1}{2}: {{'.format(
                     indent,
                     format_diff_type(some_data['diff_type']),
                     some_data['key'],
+                ))
+                res.append('{0}'.format(
                     walk(some_data['children'], level + 1),
-                )
+                ))
+                res.append('{0}  }}'.format(indent))
             elif some_data['diff_type'] == UPDATED:
-                res += '{0}{1}{2}: {3}\n'.format(
+                res.append('{0}{1}{2}: {3}'.format(
                     indent,
                     format_diff_type(REMOVED),
                     some_data['key'],
                     format_one_data(some_data['old_value'], level + 1),
-                )
-                res += '{0}{1}{2}: {3}\n'.format(
+                ))
+                res.append('{0}{1}{2}: {3}'.format(
                     indent,
                     format_diff_type(ADDED),
                     some_data['key'],
                     format_one_data(some_data['new_value'], level + 1),
-                )
+                ))
             elif some_data['diff_type'] == ADDED:
-                res += '{0}{1}{2}: {3}\n'.format(
+                res.append('{0}{1}{2}: {3}'.format(
                     indent,
                     format_diff_type(ADDED),
                     some_data['key'],
                     format_one_data(some_data['new_value'], level + 1),
-                )
+                ))
             else:
-                res += '{0}{1}{2}: {3}\n'.format(
+                res.append('{0}{1}{2}: {3}'.format(
                     indent,
                     format_diff_type(some_data['diff_type']),
                     some_data['key'],
                     format_one_data(some_data['old_value'], level + 1),
-                )
-        return res
-    return '{{\n{0}}}'.format(walk(sort_raw_data(raw_data_outer)))
+                ))
+        return '\n'.join(res)
+    return '{{\n{0}\n}}'.format(walk(raw_data_outer))

@@ -1,7 +1,7 @@
 from gendiff import generate_diff
 
 
-def test_generate_diff_stylish():
+def test_format_diff_stylish():
     with open('test/fixtures/result_stylish', 'r') as result_file:
         res = result_file.read()
         res = res[:len(res) - 1]

@@ -1,8 +1,6 @@
 """Some description."""
 import json
 
-from gendiff.formater.sort import sort_raw_data
-
 
 def json_output(raw_data):
     """
@@ -14,4 +12,4 @@ def json_output(raw_data):
     Returns:
         json: sorted diff in json format
     """
-    return json.dumps(sort_raw_data(raw_data), indent=2)
+    return json.dumps(raw_data, indent=2)

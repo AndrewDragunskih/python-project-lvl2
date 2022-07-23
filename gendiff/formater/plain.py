@@ -1,6 +1,5 @@
 """Some description."""
-from gendiff.build_diff import ADDED, NESTED, REMOVED, UPDATED
-from gendiff.formater.sort import sort_raw_data
+from gendiff.build_diff import ADDED, NESTED, NOT_CHANGED, REMOVED, UPDATED
 
 
 def format_value(some_value):
@@ -31,23 +30,20 @@ def value_is_updated(some_data, current_path):
     Returns:
         str: formatted diff
     """
-    some_value = some_data['old_value']
-    diff = "Property '{0}' was updated. ".format(current_path)
-    if isinstance(some_value, dict):
-        diff = "Property '{0}' was updated. From [complex value] to ".format(
-            current_path,
-        )
+    if isinstance(some_data['old_value'], dict):
+        old_value = '[complex value]'
     else:
-        diff = "Property '{0}' was updated. From {1} to ".format(
-            current_path,
-            format_value(some_value),
-        )
-    some_value = some_data['new_value']
-    if isinstance(some_value, dict):
-        diff = '{0}[complex value]\n'.format(diff)
+        old_value = format_value(some_data['old_value'])
+    if isinstance(some_data['new_value'], dict):
+        new_value = '[complex value]'
     else:
-        diff = '{0}{1}\n'.format(diff, format_value(some_value))
-    return diff
+        new_value = format_value(some_data['new_value'])
+
+    return "Property '{0}' was updated. From {1} to {2}".format(
+        current_path,
+        old_value,
+        new_value,
+    )
 
 
 def value_is_added(some_data, current_path):
@@ -64,9 +60,9 @@ def value_is_added(some_data, current_path):
     some_value = some_data['new_value']
     diff = "Property '{0}' was added with value: ".format(current_path)
     if isinstance(some_value, dict):
-        diff = '{0}[complex value]\n'.format(diff)
+        diff = '{0}[complex value]'.format(diff)
     else:
-        diff = '{0}{1}\n'.format(diff, format_value(some_value))
+        diff = '{0}{1}'.format(diff, format_value(some_value))
     return diff
 
 
@@ -80,7 +76,7 @@ def value_is_removed(current_path):
     Returns:
         str: formatted diff
     """
-    return "Property '{0}' was removed\n".format(current_path)
+    return "Property '{0}' was removed".format(current_path)
 
 
 def value_is_changed(some_data, current_path):
@@ -96,11 +92,11 @@ def value_is_changed(some_data, current_path):
     """
     diff = ''
     if some_data['diff_type'] == UPDATED:
-        diff += value_is_updated(some_data, current_path)
+        diff = value_is_updated(some_data, current_path)
     elif some_data['diff_type'] == ADDED:
-        diff += value_is_added(some_data, current_path)
+        diff = value_is_added(some_data, current_path)
     elif some_data['diff_type'] == REMOVED:
-        diff += value_is_removed(current_path)
+        diff = value_is_removed(current_path)
     return diff
 
 
@@ -114,19 +110,23 @@ def plain(raw_data_outer):
     Returns:
         str: difference between files in str format
     """
-    def walk(raw_data, full_path='', formatted_diff=''):
-        for some_data in raw_data:
+    formatted_diff = []
+
+    def walk(raw_data, full_path=''):
+        raw_data_sorted = []
+        raw_data_sorted.extend(sorted(
+            raw_data, key=lambda key_name: key_name['key'],
+        ))
+        for some_data in raw_data_sorted:
             current_path = full_path + some_data['key']
             if some_data['diff_type'] == NESTED:
-                formatted_diff = walk(
+                walk(
                     some_data['children'],
                     '{0}.'.format(current_path),
-                    formatted_diff,
                 )
-            else:
-                formatted_diff += value_is_changed(
+            elif some_data['diff_type'] != NOT_CHANGED:
+                formatted_diff.append(value_is_changed(
                     some_data, current_path,
-                )
-        return formatted_diff
-    formatted_diff = walk(sort_raw_data(raw_data_outer))
-    return formatted_diff[:len(formatted_diff) - 1]
+                ))
+        return '\n'.join(formatted_diff)
+    return walk(raw_data_outer)
